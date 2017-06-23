@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/Article">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="8XdyfnGMkzEeW3qzRzhQnJzld3IuO_v-JQlbEdcv57I" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <meta name="headline" content="Aprende a controlar directivas y elementos que estén en el template de tus componentes usando @ViewChild y @ViewChildren."/>
+<meta name="publisher" content="JavaScript on a Bike"/>
+<meta name="description" content="Aprende a controlar directivas y elementos que estén en el template de tus componentes usando @ViewChild y @ViewChildren.">
+<meta itemprop="name" content="Angular 2 - Controlando componentes hijos con ViewChild y ViewChildren">
+<meta itemprop="description" content="Aprende a controlar directivas y elementos que estén en el template de tus componentes usando @ViewChild y @ViewChildren.">
+
+<!-- Schema.org markup for Google+ -->
+<meta itemprop="image" content="http://i.imgur.com/XKXsutE.jpg"/>
+
+<!-- Twitter Card data -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:creator" content="@peibolazaro"/>
+<meta name="twitter:description" content="Aprende a controlar directivas y elementos que estén en el template de tus componentes usando @ViewChild y @ViewChildren.">
+<meta name="twitter:image" content="http://i.imgur.com/XKXsutE.jpg"/>
+<meta name="twitter:site" content="@peibolazaro"/>
+<meta name="twitter:title" content="Angular 2 - Controlando componentes hijos con ViewChild y ViewChildren">
+
+<!-- Open Graph data -->
+<meta property="og:description" content="Aprende a controlar directivas y elementos que estén en el template de tus componentes usando @ViewChild y @ViewChildren." />
+<meta property="og:image" content="http://i.imgur.com/XKXsutE.jpg" />
+<meta property="og:image:type" content="image/jpg" />
+<meta property="og:locale" content="es_ES" />
+<meta property="og:site_name" content="Angular 2 - Controlando componentes hijos con ViewChild y ViewChildren" />
+<meta property="og:title" content="Angular 2 - Controlando componentes hijos con ViewChild y ViewChildren" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://pablolazaro.github.io/2016/10/13/Angular-2-Controlando-componentes-hijos-con-ViewChild-y-ViewChildren/" />
+<meta property="article:author" content="Pablo Lázaro" />
+<meta property="article:section" content="Blog" />
+
+
+<meta name="article:published_time" content="Thu Oct 13 2016 21:18:52 GMT+0200" />
+<meta name="article:modified_time" content="Thu Oct 13 2016 21:18:52 GMT+0200" />
+
+
+
+
+    <title>
+        
+          Angular 2 - Controlando componentes hijos con ViewChild y ViewChildren - JavaScript on a Bike - Pablo Lázaro
+        
+    </title>
+
+    <link rel="canonical" href="http://pablolazaro.github.io/2016/10/13/Angular-2-Controlando-componentes-hijos-con-ViewChild-y-ViewChildren/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/custom.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- CSS by Pablo Lázaro -->
+ 
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">JavaScript on a Bike</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Blog</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">Acerca de mí</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archivo</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Etiquetas</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://pablolazaro.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/plasma.png')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Angular 2" title="Angular 2">Angular 2</a>
+                        
+                          <a class="tag" href="/tags/#Recetas" title="Recetas">Recetas</a>
+                        
+                    </div>
+                    <h1>Angular 2 - Controlando componentes hijos con ViewChild y ViewChildren</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Escrito por Pablo Lázaro el
+                        13/10/2016
+                    </span>
+                    <span class="meta">
+                        Tiempo de lectura: 5 minutos
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+
+                <blockquote>
+<p>Este artículo está actualizado a la version ^4.0.0 de Angular 2</p>
+</blockquote>
+<p>Una de las cosas que más me ha sorprendido de Angular 2 es la cantidad de 
+posibilidades que nos ofrece el framework para que los componentes
+<a href="https://angular.io/docs/ts/latest/cookbook/component-communication.html" target="_blank" rel="external">se comuniquen entre si</a>.</p>
+<p>Hoy voy a hablar de cómo controlar los componentes o directivas que tengamos en el <em>template</em> de nuestro componente 
+utilizando los <a href="https://www.typescriptlang.org/docs/handbook/decorators.html" target="_blank" rel="external">decoradores</a>
+ <code>ViewChild</code> y <code>ViewChildren</code>.</p>
+<p>Durante el artículo vamos a utilizar como ejemplo un componente al que llamaremos <code>SystemMessage</code>
+que mostrará un mensaje al usuario cuando la aplicación lo requiera.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">@Component(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'system-message'</span>,</div><div class="line">  <span class="attr">template</span>: <span class="string">`</span></div><div class="line">    &lt;div *ngIf="active" class="system-message"&gt;</div><div class="line">      &lt;p&gt;&#123;&#123;message&#125;&#125;&lt;/p&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">SystemMessageComponent</span> </span>&#123;</div><div class="line">  @Input() message: string;</div><div class="line">  @Input() active: boolean;</div><div class="line"></div><div class="line">  show () &#123;</div><div class="line">    <span class="keyword">this</span>.active = <span class="literal">true</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  hide () &#123;</div><div class="line">    <span class="keyword">this</span>.active = <span class="literal">false</span>;</div><div class="line">  &#125;    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="ViewChild"><a href="#ViewChild" class="headerlink" title="ViewChild"></a><code>ViewChild</code></h1><p>Tanto <code>ViewChild</code> como <code>ViewChildren</code> son dos decoradores que, utilizados sobre una propiedad
+de la clase que representa a un componente, permiten obtener las instancias de elementos nativos, 
+directivas y componentes que estén en el <em>template</em> del mismo.</p>
+<blockquote><p>Configures a view query.</p>
+<p>You can use ViewChild to get the first element or the directive matching the selector from the view DOM. If the view DOM changes, and a new child matches the selector, the property will be updated.</p>
+<p>View queries are set before the ngAfterViewInit callback is called.</p>
+<footer><strong>Angular Docs</strong><cite><a href="https://angular.io/docs/ts/latest/api/core/index/ViewChild-decorator.html" target="_blank" rel="external">ViewChild API Reference</a></cite></footer></blockquote>
+<p>Es importante remarcar que las propiedades decoradas con <code>ViewChild</code> se resuelven justo antes de ejecutarse el
+<em>hook</em> <code>ngAfterViewInit</code>. Esto quiere decir que si intentamos acceder a la propiedad en un <em>hook</em> previo, como por ejemplo en el <em>hook</em>
+<code>ngOnInit</code>, esta tendrá como valor <code>undefined</code>.</p>
+<p>Para realizar una <em>query</em> utilizando <code>ViewChild</code> podemos utilizar principalmente dos tipos de selectores:</p>
+<ul>
+<li>El tipo del componente. Se obtendrá el primer componente que se encuentre en la vista con el tipo informado</li>
+<li>El nombre de una <em>template variable</em></li>
+</ul>
+<h2 id="Usando-un-tipo"><a href="#Usando-un-tipo" class="headerlink" title="Usando un tipo"></a>Usando un tipo</h2><p>Usar <code>ViewChild</code> utilizando como selector el tipo del componente o directiva que queremos obtener
+nos permite realizar búsquedas en la vista sin necesidad de crear una <em>template variable</em>.</p>
+<p>Hay que tener en cuenta que en caso de haber más de un elemento con el tipo que se haya usado
+como selector el framework nos devolverá la primera ocurrencia de la búsqueda.</p>
+<figure class="highlight javascript"><figcaption><span>app.component.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">@Component(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'my-app'</span>,</div><div class="line">  <span class="attr">template</span>: <span class="string">`</span></div><div class="line">    &lt;h1&gt;My App&lt;/h1&gt;</div><div class="line">    &lt;system-message&gt;&lt;/system-message&gt;</div><div class="line">  `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">AppComponent</span> <span class="title">implements</span> <span class="title">AfterViewInit</span> </span>&#123;</div><div class="line">  @ViewChild(SystemMessageComponent) message: SystemMessageComponent;</div><div class="line"></div><div class="line">  ngAfterViewInit () &#123;</div><div class="line">    <span class="comment">// Ahora puedes utilizar el componente hijo</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Usando-una-template-variable"><a href="#Usando-una-template-variable" class="headerlink" title="Usando una template variable"></a>Usando una <em>template variable</em></h2><p>Si queremos obtener una instancia en concreto entre varias posibilidades podemos usar una <em>template variable</em>
+para utilizar su nombre como selector.</p>
+<figure class="highlight javascript"><figcaption><span>app.component.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">@Component(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'my-app'</span>,</div><div class="line">  <span class="attr">template</span>: <span class="string">`</span></div><div class="line">    &lt;h1&gt;My ViewChild Demo&lt;/h1&gt;</div><div class="line">    &lt;system-message #firstMessage&gt;&lt;/system-message&gt;</div><div class="line">    &lt;system-message #secondMessage&gt;&lt;/system-message&gt;</div><div class="line">  `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">AppComponent</span> <span class="title">implements</span> <span class="title">AfterViewInit</span> </span>&#123;</div><div class="line">  @ViewChild(<span class="string">'firstMessage'</span>) message: SystemMessageComponent;</div><div class="line"></div><div class="line">  ngAfterViewInit () &#123;</div><div class="line">    <span class="comment">// Ahora puedes utilizar el componente hijo</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>La ventaja de este método es que podemos obtener también instancias de elementos nativos:</p>
+<figure class="highlight javascript"><figcaption><span>app.component.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">@Component(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'my-app'</span>,</div><div class="line">  <span class="attr">template</span>: <span class="string">`</span></div><div class="line">    &lt;h1 #header&gt;My ViewChild Demo&lt;/h1&gt;</div><div class="line">    &lt;system-message&gt;&lt;/system-message&gt; </div><div class="line">  `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">AppComponent</span> <span class="title">implements</span> <span class="title">AfterViewInit</span> </span>&#123;</div><div class="line">  @ViewChild(<span class="string">'header'</span>) header: ElementRef;</div><div class="line"></div><div class="line">  ngAfterViewInit () &#123;</div><div class="line">    <span class="comment">// Ahora puedes utilizar el componente hijo</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Utilizando-el-API-con-ViewChild"><a href="#Utilizando-el-API-con-ViewChild" class="headerlink" title="Utilizando el API con ViewChild"></a>Utilizando el API con ViewChild</h2><p>Hasta ahora hemos aprendido a obtener las instancias de componentes, directivas y elementos nativos
+que existan en el <em>template</em> de nuestro componente pero, ¿y cómo hacemos para comunicarnos con ellas?.</p>
+<p>¡Muy sencillo! El objeto recuperado es una instancia de la clase del elemento
+que hemos obtenido y por lo tanto todos sus métodos y propiedades están accesibles desde el mismo.</p>
+<p>Lo único que hay que tener en cuenta es que solo se pueden utilizar después de la ejecución del <em>hook</em> <code>ngAfterViewInit</code>.</p>
+<figure class="highlight javascript"><figcaption><span>app.component.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">@Component(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'my-app'</span>,</div><div class="line">  <span class="attr">template</span>: <span class="string">`</span></div><div class="line">    &lt;h1&gt;My ViewChild Demo&lt;/h1&gt;</div><div class="line">    &lt;system-message&gt;&lt;/system-message&gt;</div><div class="line">    &lt;button (click)="toggleMessage()"&gt;Toggle message&lt;/button&gt;</div><div class="line">  `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">AppComponent</span> <span class="title">implements</span> <span class="title">AfterViewInit</span> </span>&#123;</div><div class="line">  @ViewChild(SystemMessage) systemMessage: SystemMessage;</div><div class="line"></div><div class="line">  ngAfterViewInit () &#123;</div><div class="line">    <span class="keyword">this</span>.systemMessage.message = <span class="string">'Hello World!'</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  toggleMessage () &#123;</div><div class="line">    <span class="keyword">this</span>.systemMessage.active ? <span class="keyword">this</span>.systemMessage.hide() : <span class="keyword">this</span>.systemMessage.show();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Puedes verlo en vivo y manipular el código en el siguiente <strong>Plunkr</strong>:</p>
+<iframe style="width: 100%; height: 600px" src="https://embed.plnkr.co/YmLiQgIbCMAUJq9LqS2s/" frameborder="0" allowfullscren="allowfullscren"></iframe>
+
+<h1 id="ViewChildren"><a href="#ViewChildren" class="headerlink" title="ViewChildren"></a>ViewChildren</h1><p>El decorador <code>ViewChildren</code> nos permite obtener todos los elementos que existan en nuestro
+<em>template</em> que sean del <strong>tipo</strong> que usamos como selector. El objeto devuelto es del tipo <code>QueryList</code>, 
+el cual es resuelto antes del <em>hook</em> <code>ngAfterViewInit</code>. Podemos subscribirnos al <code>Observable</code> que nos proporciona
+la propiedad <code>changes</code> para obtener los resultados de la búsqueda.</p>
+<p>Puedes aprender más sobre la clase <code>QueryList</code> en la <a href="https://angular.io/docs/ts/latest/api/core/index/QueryList-class.html" target="_blank" rel="external">documentación de la misma</a>.</p>
+<figure class="highlight javascript"><figcaption><span>app.component.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">@Component(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'my-app'</span>,</div><div class="line">  <span class="attr">template</span>: <span class="string">`</span></div><div class="line">    &lt;h1 #header&gt;My App&lt;/h1&gt;</div><div class="line">    &lt;system-message message="First message"&gt;&lt;/system-message&gt;</div><div class="line">    &lt;system-message message="Second message"&gt;&lt;/system-message&gt; </div><div class="line">    &lt;system-message message="Third message"&gt;&lt;/system-message&gt; </div><div class="line">  `</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">AppComponent</span> <span class="title">implements</span> <span class="title">AfterViewInit</span> </span>&#123;</div><div class="line">  @ViewChildren(SystemMessageComponent) query: QueryList&lt;SystemMessageComponent&gt;;</div><div class="line"></div><div class="line">  ngAfterViewInit () &#123;</div><div class="line">    <span class="keyword">this</span>.query.changes.subscribe(<span class="function">(<span class="params">items: <span class="built_in">Array</span>&lt;SystemMessageComponent&gt;</span>) =&gt;</span> &#123;</div><div class="line">      messages.forEach(<span class="function">(<span class="params">item: SystemMessageComponent</span>) =&gt;</span> <span class="built_in">console</span>.log(item.message));</div><div class="line">    &#125;);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Y con esto ya tienes la información necesaria para empezar a utilizar tus componentes hijos
+usando los decoradores <code>ViewChild</code> y <code>ViewChildren</code>. Es una técnica muy utilizada cuando se aplica
+el patrón de <a href="https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.g879nu5gq" target="_blank" rel="external">componentes de presentación y componentes contenedores</a>.</p>
+<p>¡Hasta la próxima!</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/10/23/transclusion-en-angular-2/" data-toggle="tooltip" data-placement="top" title="Transclusión de contenido en Angular 2">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/09/30/Comenzamos/" data-toggle="tooltip" data-placement="top" title="Comenzamos">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">ETIQUETAS DESTACADAS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Angular 2" title="Angular 2">Angular 2</a>
+                        
+                          <a class="tag" href="/tags/#Recetas" title="Recetas">Recetas</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>BLOGS DE INTERÉS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.angular-university.io/" target="_blank">Angular University</a></li>
+                    
+                        <li><a href="https://toddmotto.com/" target="_blank">Todd Motto</a></li>
+                    
+                        <li><a href="http://blog.thoughtram.io/" target="_blank">Thoughtram</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "javascript-on-a-bike";
+    var disqus_identifier = "http://pablolazaro.github.io/2016/10/13/Angular-2-Controlando-componentes-hijos-con-ViewChild-y-ViewChildren/";
+    var disqus_url = "http://pablolazaro.github.io/2016/10/13/Angular-2-Controlando-componentes-hijos-con-ViewChild-y-ViewChildren/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/peibolazaro">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/pablolazaro">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/pablolazaropalencia">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; JavaScript on a Bike 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://pablolazaro.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-85104645-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<!--<img src="http://pablolazaro.github.io/img/icon_wechat.png" width="0" height="0" />-->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

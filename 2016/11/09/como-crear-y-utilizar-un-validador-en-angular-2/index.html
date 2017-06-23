@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/Article">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="8XdyfnGMkzEeW3qzRzhQnJzld3IuO_v-JQlbEdcv57I" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <meta name="headline" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular 2"/>
+<meta name="publisher" content="JavaScript on a Bike"/>
+<meta name="description" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular 2">
+<meta itemprop="name" content="Cómo crear y utilizar un validador en Angular 2">
+<meta itemprop="description" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular 2">
+
+<!-- Schema.org markup for Google+ -->
+<meta itemprop="image" content="http://i.imgur.com/XKXsutE.jpg"/>
+
+<!-- Twitter Card data -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:creator" content="@peibolazaro"/>
+<meta name="twitter:description" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular 2">
+<meta name="twitter:image" content="http://i.imgur.com/XKXsutE.jpg"/>
+<meta name="twitter:site" content="@peibolazaro"/>
+<meta name="twitter:title" content="Cómo crear y utilizar un validador en Angular 2">
+
+<!-- Open Graph data -->
+<meta property="og:description" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular 2" />
+<meta property="og:image" content="http://i.imgur.com/XKXsutE.jpg" />
+<meta property="og:image:type" content="image/jpg" />
+<meta property="og:locale" content="es_ES" />
+<meta property="og:site_name" content="Cómo crear y utilizar un validador en Angular 2" />
+<meta property="og:title" content="Cómo crear y utilizar un validador en Angular 2" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://pablolazaro.github.io/2016/11/09/como-crear-y-utilizar-un-validador-en-angular-2/" />
+<meta property="article:author" content="Pablo Lázaro" />
+<meta property="article:section" content="Blog" />
+
+
+<meta name="article:published_time" content="Wed Nov 09 2016 10:30:51 GMT+0100" />
+<meta name="article:modified_time" content="Wed Nov 09 2016 10:30:51 GMT+0100" />
+
+
+
+
+    <title>
+        
+          Cómo crear y utilizar un validador en Angular 2 - JavaScript on a Bike - Pablo Lázaro
+        
+    </title>
+
+    <link rel="canonical" href="http://pablolazaro.github.io/2016/11/09/como-crear-y-utilizar-un-validador-en-angular-2/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/custom.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- CSS by Pablo Lázaro -->
+ 
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">JavaScript on a Bike</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Blog</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">Acerca de mí</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archivo</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Etiquetas</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://pablolazaro.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/plasma.png')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Angular 2" title="Angular 2">Angular 2</a>
+                        
+                          <a class="tag" href="/tags/#Forms" title="Forms">Forms</a>
+                        
+                    </div>
+                    <h1>Cómo crear y utilizar un validador en Angular 2</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Escrito por Pablo Lázaro el
+                        09/11/2016
+                    </span>
+                    <span class="meta">
+                        Tiempo de lectura: 15 minutos
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+
+                <blockquote>
+<p>Este artículo está actualizado a la version ^4.0.0 de Angular 2</p>
+</blockquote>
+<img src="https://s-media-cache-ak0.pinimg.com/236x/15/1d/41/151d4189b0b48debd2cb32e0d9e2b0f7.jpg" title="Jon Snow, Software Developer">
+<p>Este es Jon. Jon ha decidido dejar la espada y las guerras por los siete reinos
+para convertirse en el mejor developer de todo Westeros. Jon utiliza exclusivamente <strong>jQuery</strong>
+para desarrollar aplicaciones web, así que vamos a mostrarle algunas de las caracteristicas
+de Angular 2 para mejorar su productividad y ayudarle a crear software más robusto. No sabes nada, Jon Nieve.</p>
+<img src="http://i.giphy.com/has1WKhoorwLS.gif" title="Sí, sí, cómo quieras Jon">
+<p>Al igual que en la primera versión del framework Angular 2 incorporá el módulo <code>forms</code>
+para manejar y validar, entre otras cosas, formularios. Este módulo proporciona las herramientas necesarias
+para crear y manejar la interacción del usuario con un formulario de una forma muy similar
+a la que se hiciese en Angular 1.</p>
+<blockquote>
+<p>La explicación en detalle del funcionamiento del módulo <code>forms</code> no entra dentro del alcance del artículo</p>
+</blockquote>
+<h2 id="Utilizando-una-directiva-para-anadir-una-validacion"><a href="#Utilizando-una-directiva-para-anadir-una-validacion" class="headerlink" title="Utilizando una directiva para añadir una validación"></a>Utilizando una directiva para añadir una validación</h2><p>Cuando tenemos un formulario típico al que queremos añadir las validaciones que HTML5 trae incorporadas
+no hay que realizar ningún desarrollo adicional, el framework nos proporciona unas directivas que aplican
+las validaciones necesarias y se integran con el sistema de validación de Angular de forma transparente.</p>
+<p>Un ejemplo puede ser el siguiente:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;<span class="selector-tag">form</span> name=<span class="string">"myForm"</span>&gt;</div><div class="line">  &lt;<span class="selector-tag">label</span> <span class="keyword">for</span>=<span class="string">"firstName"</span>&gt;First name:&lt;/label&gt;</div><div class="line">  &lt;<span class="selector-tag">input</span> type=<span class="string">"text"</span> name=<span class="string">"firstName"</span> required&gt;</div><div class="line">  &lt;<span class="selector-tag">button</span> type=<span class="string">"submit"</span>&gt;Send&lt;/button&gt;</div><div class="line">&lt;/form&gt;</div></pre></td></tr></table></figure>
+<p>El formulario anterior contiene un caja de texto para introducir un nombre. Este campo está marcado como obligatorio,
+pues tiene el atributo <code>required</code> que obliga al usuario a rellenarlo si quiere enviar la información que el formulario contiene.
+Dicha validación se realiza nativamente en el navegador siguiendo el estándar de HTML5. En el ejemplo Angular aún no ha entrado en juego.</p>
+<p>Bien, ahora vamos a utilizar el framework para validar el formulario, lo primero es añadir el atributo <code>novalidate</code> a la 
+etiqueta <code>form</code> para evitar que la validación nativa se active.</p>
+<p>Después, añadiremos las directivas necesarias para crear los controles del formulario, para ello necesitamos
+la directiva <code>ngModel</code> (<code>formControl</code> o <code>formControlName</code> en caso de formularios reactivos) junto con el atributo <code>name</code>
+para identificar cada control:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;<span class="selector-tag">form</span> name=<span class="string">"myForm"</span> novalidate&gt;</div><div class="line">  &lt;<span class="selector-tag">label</span> <span class="keyword">for</span>=<span class="string">"firstName"</span>&gt;First name:&lt;/label&gt;</div><div class="line">  &lt;<span class="selector-tag">input</span> type=<span class="string">"text"</span> name=<span class="string">"firstName"</span> [(ngModel)]=<span class="string">"model.firstName"</span> required&gt;</div><div class="line">  &lt;<span class="selector-tag">button</span> type=<span class="string">"submit"</span>&gt;Send&lt;/button&gt;</div><div class="line">&lt;/form&gt;</div></pre></td></tr></table></figure>
+<p>Ahora podemos utilizar las propiedades que nos proporciona Angular para saber si el formulario
+se ha modificado, si es válido y en caso de que no lo sea que errores tiene cada campo (<a href="https://angular.io/docs/ts/latest/guide/forms.html" target="_blank" rel="external">forms</a>).</p>
+<p>Por ejemplo, en el caso de la directiva <code>required</code> esta añade el error <code>required: true</code> cuando el campo no se ha rellenado.</p>
+<h2 id="Creando-una-directiva-que-aplique-una-validacion"><a href="#Creando-una-directiva-que-aplique-una-validacion" class="headerlink" title="Creando una directiva que aplique una validación"></a>Creando una directiva que aplique una validación</h2><p>Para entender mejor el concepto vamos a crear nuestra propia validación. Esta validación comprobará
+que el nombre que recibe sea el de un miembro legítimo de la <a href="http://gameofthrones.wikia.com/wiki/House_Stark" target="_blank" rel="external">casa Stark</a>.</p>
+<blockquote>
+<p>Para los que no conozcan la serie <a href="https://g.co/kgs/9XLkiy" target="_blank" rel="external">Juego de Tronos</a> o no hayan leído la saga
+de libros <a href="https://es.wikipedia.org/wiki/Canci%C3%B3n_de_hielo_y_fuego" target="_blank" rel="external">Canción de Hielo y Fuego</a> los miembros legítimos (los bastardos no cuentan) de la casa Stark son los siguientes:
+Eddard, Benjen, Lyanna, Catelyn, Robb, Sansa, Arya, Brandon y Ryckon.</p>
+</blockquote>
+<img src="http://i.giphy.com/xONhGezd3gdB6.gif" title="Esta vez no Jon">
+<p>Teniendo esto claro, vamos a crear la directiva:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@Directive(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'[stark]'</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">HouseStarkValidator</span> </span>&#123; &#125;</div></pre></td></tr></table></figure>
+<p>Por ahora la directiva aplica a todo elemento que tenga el atributo <code>stark</code>. Pero, ¿cómo convertimos la directiva
+en un validador?.</p>
+<h3 id="Implementando-la-interfaz-Validator"><a href="#Implementando-la-interfaz-Validator" class="headerlink" title="Implementando la interfaz Validator"></a>Implementando la interfaz <code>Validator</code></h3><p>Angular incluye la interfaz <a href="https://angular.io/docs/ts/latest/api/forms/index/Validator-interface.html" target="_blank" rel="external">Validator</a>, la cual debe ser implementada
+por toda clase que quiera actuar como un validador. La interfaz nos obliga a implementar el siguiente método:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">validate(c: AbstractControl) : &#123;[key: string]: any&#125;</div></pre></td></tr></table></figure>
+<p>Dicho método recibirá el control a validar y debe devolver un objeto con los errores de validación o <code>null</code> en caso de que
+la validación sea correcta. Vamos a implementar la interfaz en nuestra directiva:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">@Directive(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'[stark]'</span></div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">HouseStarkValidator</span> <span class="title">implements</span> <span class="title">Validator</span> </span>&#123;</div><div class="line">  private LEGITIMATE_STARK_MEMBERS: <span class="built_in">Array</span>&lt;string&gt; = [</div><div class="line">    <span class="string">'EDDARD'</span>, </div><div class="line">    <span class="string">'BENJEN'</span>, </div><div class="line">    <span class="string">'LYANNA'</span>, </div><div class="line">    <span class="string">'CATELYN'</span>, </div><div class="line">    <span class="string">'ROBB'</span>, </div><div class="line">    <span class="string">'SANSA'</span>, </div><div class="line">    <span class="string">'ARYA'</span>, </div><div class="line">    <span class="string">'BRANDON'</span>, </div><div class="line">    <span class="string">'RYCKON'</span></div><div class="line">  ];</div><div class="line"></div><div class="line">  validate(control: AbstractControl): &#123;[key: string]: any&#125; &#123;</div><div class="line">    <span class="keyword">if</span> (control.value != <span class="literal">null</span> || <span class="keyword">typeof</span> control.value === <span class="string">'string'</span> &amp;&amp; control.value.length !== <span class="number">0</span>) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.isLegitimateStark(control.value) ? <span class="literal">null</span> : &#123; <span class="string">'stark'</span>: <span class="literal">true</span> &#125;;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  private isLegitimateStark (name: string): boolean &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.LEGITIMATE_STARK_MEMBERS.indexOf(name.toUpperCase().trim()) !== <span class="number">-1</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Anadiendo-el-validador-a-NG-VALIDATORS"><a href="#Anadiendo-el-validador-a-NG-VALIDATORS" class="headerlink" title="Añadiendo el validador a NG_VALIDATORS"></a>Añadiendo el validador a <code>NG_VALIDATORS</code></h3><p>Con implementar la interfaz <code>Validator</code> no es suficiente. </p>
+<p>Para indicarle al framework que utilice nuestra clase como un validador debemos registrarla en el provider
+<code>NG_VALIDATORS</code>, una colección que incluye Angular y que es extensible con las directivas
+que queramos.</p>
+<p>Una vez registrada la directiva Angular se encargará de invocar el método <code>validate</code> de la misma y de añadir el error
+al objeto de errores del <code>FormControl</code>.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> HOUSE_STARK_VALIDATOR: any = &#123;</div><div class="line">  <span class="attr">provide</span>: NG_VALIDATORS,</div><div class="line">  <span class="attr">useExisting</span>: forwardRef(<span class="function"><span class="params">()</span> =&gt;</span> HouseStarkValidator),</div><div class="line">  <span class="attr">multi</span>: <span class="literal">true</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line">@Directive(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'[stark]'</span>,</div><div class="line">  <span class="attr">providers</span>: [ HOUSE_STARK_VALIDATOR ],</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">HouseStarkValidator</span> <span class="title">implements</span> <span class="title">Validator</span> </span>&#123;</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Sin entrar mucho en detalle, lo que estamos haciendo es añadiendo al <em>provider</em> <code>NG_VALIDATORS</code> nuestra
+directiva <code>HouseStarkValidator</code>. Para ello, es necesario utilizar la propiedad <code>multi: true</code>, indicando que queremos
+utilizar varias dependencias para el token <code>NG_VALIDATORS</code> y la propiedad <code>useExisting</code> que hace referencia a nuestra directiva.</p>
+<p>¿Y para qué es la función <code>forwardRef</code>? La función <code>forwardRef</code> nos permite hacer referencia a instancias de clases
+que aún no se hayan creado en el sistema de inyección de dependencias de Angular. Es decir, en este caso, el decorador <code>Directive</code> está haciendo
+referencia a una instancia de <code>HouseStarkValidator</code> que aún no se ha creado.</p>
+<p>Para entender mejor esto, podéis leer los siguientes artículos acerca de <a href="http://blog.thoughtram.io/angular/2015/09/03/forward-references-in-angular-2.html" target="_blank" rel="external">forwardRef</a>
+y <a href="http://blog.thoughtram.io/angular2/2015/11/23/multi-providers-in-angular-2.html" target="_blank" rel="external">multi providers</a>.</p>
+<h3 id="Afinando-el-selector"><a href="#Afinando-el-selector" class="headerlink" title="Afinando el selector"></a>Afinando el selector</h3><p>Hasta ahora nuestra directiva aplica a todo elemento que tenga el atributo <code>stark</code>, pero esto no es muy eficiente
+dado que nuestra validación está muy ligada a un control de formulario que esté integrado dentro de un formulario de Angular 2,
+es decir, un elemento que tenga la combinación de atributos <code>ngModel</code> y <code>name</code> en caso de formularios <em>template-drive</em> o los atributos
+<code>formControl</code> o <code>formControlName</code> en caso de formularios reactivos.</p>
+<p>Así que, ¿por qué no afinar el selector para que solo aplique a los elementos que realmente sean controles de formulario?.</p>
+<p>Las directivas en Angular 2 pueden tener multiples selectores (separados por comas) además de selectores que combinen varios atributos.
+Podemos, por ejemplo, aplicar la directiva solo a aquellos elementos que tengan el atributo <code>stark</code> y la directiva <code>ngModel</code> de esta manera:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@Directive(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'[stark][ngModel]'</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>En nuestro caso, y para cumplir todos los requisitos que hemos listado anteriormente, el selector de nuestra directiva quedaría así:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@Directive(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'[stark][ngModel],[stark][formControl],[stark][formControlName]'</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="Resultado-final"><a href="#Resultado-final" class="headerlink" title="Resultado final"></a>Resultado final</h3><p>Después de todos los pasos nuestra directiva está lista para ser utilizada, el código final quedaría así:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> HOUSE_STARK_VALIDATOR: any = &#123;</div><div class="line">  <span class="attr">provide</span>: NG_VALIDATORS,</div><div class="line">  <span class="attr">useExisting</span>: forwardRef(<span class="function"><span class="params">()</span> =&gt;</span> HouseStarkValidator),</div><div class="line">  <span class="attr">multi</span>: <span class="literal">true</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line">@Directive(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'[stark]'</span>,</div><div class="line">  <span class="attr">providers</span>: [ HOUSE_STARK_VALIDATOR ]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">HouseStarkValidator</span> <span class="title">implements</span> <span class="title">Validator</span> </span>&#123;</div><div class="line">  private LEGITIMATE_STARK_MEMBERS: <span class="built_in">Array</span>&lt;string&gt; = [</div><div class="line">    <span class="string">'EDDARD'</span>, </div><div class="line">    <span class="string">'BENJEN'</span>, </div><div class="line">    <span class="string">'LYANNA'</span>, </div><div class="line">    <span class="string">'CATELYN'</span>, </div><div class="line">    <span class="string">'ROBB'</span>, </div><div class="line">    <span class="string">'SANSA'</span>, </div><div class="line">    <span class="string">'ARYA'</span>, </div><div class="line">    <span class="string">'BRANDON'</span>, </div><div class="line">    <span class="string">'RYCKON'</span></div><div class="line">  ];</div><div class="line"></div><div class="line">  validate(control: AbstractControl) : &#123;[key: string]: any&#125; &#123;</div><div class="line">    <span class="keyword">if</span> (control.value != <span class="literal">null</span> || <span class="keyword">typeof</span> control.value === <span class="string">'string'</span> &amp;&amp; control.value.length !== <span class="number">0</span>) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.isLegitimateStark(control.value) ? <span class="literal">null</span> : &#123; <span class="string">'stark'</span>: <span class="literal">true</span> &#125;;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  private isLegitimateStark (name: string): boolean &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.LEGITIMATE_STARK_MEMBERS.indexOf(name.toUpperCase().trim()) !== <span class="number">-1</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Puedes ver la directiva en acción en el siguiente Plunker:</p>
+<iframe style="width: 100%; height: 600px" src="https://embed.plnkr.co/fnKjzidT4LreVT8aZ76Z?show=preview&deferRun" frameborder="0" allowfullscren="allowfullscren"></iframe>
+
+<img src="http://i.giphy.com/JJ59Hg2DGQ2ys.gif" title="S...now">
+<h2 id="Utilizando-el-validador-en-un-formulario-reactivo"><a href="#Utilizando-el-validador-en-un-formulario-reactivo" class="headerlink" title="Utilizando el validador en un formulario reactivo"></a>Utilizando el validador en un formulario reactivo</h2><p>Hasta ahora hemos hablado de validaciones en formularios <em>template-driven</em>, pero ¿qué hay de los formularios reactivos?. </p>
+<blockquote>
+<p>Si quieres saber más acerca de los formularios reactivos te recomiendo leer <a href="http://blog.thoughtram.io/angular/2016/06/22/model-driven-forms-in-angular-2.html" target="_blank" rel="external">este artículo</a></p>
+</blockquote>
+<p>Cuando queremos añadir una validación en un formulario reactivo debemos hacerlo a la hora de construir los controles de formulario. Si recuerdas bien,
+un formulario es una instancia de <code>FormGroup</code> que a su vez está formada por multiples <code>FormControl</code>. La forma más sencilla de crear un formulario reactivo sería así:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> form = <span class="keyword">new</span> FormGroup(&#123;</div><div class="line">  <span class="attr">firstName</span>: <span class="keyword">new</span> FormControl(<span class="string">''</span>, Validators.required),</div><div class="line">  <span class="attr">lastName</span>: <span class="keyword">new</span> FormControl(<span class="string">''</span>, Validators.required)</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>Si echas un vistazo al constructor de la clase <a href="https://angular.io/docs/ts/latest/api/forms/index/FormControl-class.html" target="_blank" rel="external"><code>FormControl</code></a> podrás ver que este recibe tres argumentos:</p>
+<ul>
+<li>Valor inicial o objeto de inicialización</li>
+<li>Listado de validadores síncronos</li>
+<li>Listado de validadores asíncronos</li>
+</ul>
+<p>Angular 2 provee la clase <a href="https://angular.io/docs/ts/latest/api/forms/index/Validators-class.html" target="_blank" rel="external"><code>Validators</code></a>, la cual tiene una serie de métodos estáticos para aplicar las validaciones más comunes:
+<code>required</code>, <code>minLength</code>, <code>pattern</code>, <code>nullValidator</code>, etc. A la hora de crear un <code>FormControl</code> podemos pasar cualquiera de esos métodos estáticos
+como segundo argumento:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> FormControl(<span class="string">''</span>, [Validators.required, Validators.minLength(<span class="number">5</span>)]);</div></pre></td></tr></table></figure>
+<p>De este modo, estaríamos aplicando las validaciones indicadas sobre el control de formulario. Vamos a refactorizar el código de nuestra directiva
+para poder utilizar el validador en un formulario reactivo.</p>
+<h3 id="Refactorizando-el-validador"><a href="#Refactorizando-el-validador" class="headerlink" title="Refactorizando el validador"></a>Refactorizando el validador</h3><p>Lo primero es extraer la lógica de la validación. En este caso vamos a sacar la función a un fichero que exporte la misma,
+para poder utilizarla desde varios sitios:</p>
+<figure class="highlight javascript"><figcaption><span>house-stark.validator.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> LEGITIMATE_STARK_MEMBERS: <span class="built_in">Array</span>&lt;string&gt; = [</div><div class="line">  <span class="string">'EDDARD'</span>, </div><div class="line">  <span class="string">'BENJEN'</span>, </div><div class="line">  <span class="string">'LYANNA'</span>, </div><div class="line">  <span class="string">'CATELYN'</span>, </div><div class="line">  <span class="string">'ROBB'</span>, </div><div class="line">  <span class="string">'SANSA'</span>, </div><div class="line">  <span class="string">'ARYA'</span>, </div><div class="line">  <span class="string">'BRANDON'</span>, </div><div class="line">  <span class="string">'RYCKON'</span></div><div class="line">];</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">isLegitimateStark</span> (<span class="params">control: AbstractControl</span>): </span>&#123;[key: string]: any&#125; &#123;</div><div class="line">  <span class="keyword">if</span> (control.value != <span class="literal">null</span> || <span class="keyword">typeof</span> control.value === <span class="string">'string'</span> &amp;&amp; control.value.length !== <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">return</span> LEGITIMATE_STARK_MEMBERS.indexOf(name.toUpperCase().trim()) !== <span class="number">-1</span> ? </div><div class="line">      <span class="literal">null</span> : &#123; <span class="string">'stark'</span>: <span class="literal">true</span> &#125;;</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Ahora, importaremos la función en nuestra directiva y la utilizaremos en el método <code>validate</code>:</p>
+<figure class="highlight javascript"><figcaption><span>house-stark-validator.directive.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; isLegitimateStark &#125; <span class="keyword">from</span> <span class="string">'./house-stark.validator'</span>;</div><div class="line">...</div><div class="line">validate (control: AbstractControl): &#123;[key: string]: any&#125; &#123;</div><div class="line">  <span class="keyword">return</span> isLegitimateStark(control);</div><div class="line">&#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>En el caso de un formulario reactivo el mecanismo es el mismo. Primero importamos la función y después la pasamos
+como argumento en la lista de validadores:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> FormControl(<span class="string">''</span>, [Validators.required, isLegitimateStark]);</div></pre></td></tr></table></figure>
+<h3 id="Parametrizando-el-validador"><a href="#Parametrizando-el-validador" class="headerlink" title="Parametrizando el validador"></a>Parametrizando el validador</h3><p>Hay validaciones que no dependen unicamente del valor del <code>FormControl</code> si no también de algún tipo de parametrización, por ejemplo,
+la validación <code>minLength</code> depende de un valor que sirve como referencia para calcular si la cadena cumple con la longitud mínima.</p>
+<p>Vamos a modificar nuestro validador para permitir que reciba un parámetro que indicará si se deben contar como legítimos los personajes
+que sean bastardos, para ello nos vamos a ayudar de la interfaz <code>ValidatorFn</code>:</p>
+<img src="http://i.giphy.com/FqOSrvVJhkP6M.gif" title="¿Contento Jon?">
+<figure class="highlight javascript"><figcaption><span>house-stark.validator.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> LEGITIMATE_STARK_MEMBERS: <span class="built_in">Array</span>&lt;string&gt; = [</div><div class="line">  <span class="string">'EDDARD'</span>, </div><div class="line">  <span class="string">'BENJEN'</span>, </div><div class="line">  <span class="string">'LYANNA'</span>, </div><div class="line">  <span class="string">'CATELYN'</span>, </div><div class="line">  <span class="string">'ROBB'</span>, </div><div class="line">  <span class="string">'SANSA'</span>, </div><div class="line">  <span class="string">'ARYA'</span>, </div><div class="line">  <span class="string">'BRANDON'</span>, </div><div class="line">  <span class="string">'RYCKON'</span></div><div class="line">];</div><div class="line"></div><div class="line"><span class="keyword">const</span> JUST_BASTARDS = [<span class="string">'JON'</span>, <span class="string">'JON SNOW'</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isLegitimateStarkWithoutBastards</span> (<span class="params">name: string</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> LEGITIMATE_STARK_MEMBERS.indexOf(name.toUpperCase().trim()) !== <span class="number">-1</span> ? <span class="literal">null</span> : &#123; <span class="string">'stark'</span>: <span class="literal">true</span> &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isLegitimateStarkWithBastards</span> (<span class="params">name: string</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> LEGITIMATE_STARK_MEMBERS.concat(JUST_BASTARDS).indexOf(name.toUpperCase().trim()) !== <span class="number">-1</span> ? <span class="literal">null</span> : &#123; <span class="string">'stark'</span>: <span class="literal">true</span> &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">isLegitimateStark</span> (<span class="params">acceptBastards: boolean</span>): <span class="title">ValidatorFn</span> </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">control: AbstractControl</span>): </span>&#123;[key: string]: any&#125; &#123;</div><div class="line">    <span class="keyword">if</span> (control.value != <span class="literal">null</span> || <span class="keyword">typeof</span> control.value === <span class="string">'string'</span> &amp;&amp; control.value.length !== <span class="number">0</span>) &#123;</div><div class="line">      <span class="keyword">return</span> acceptBastards ?</div><div class="line">        isLegitimateStarkWithBastards(control.value) :</div><div class="line">        isLegitimateStarkWithoutBastards(control.value); </div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Ahora lo que tenemos es una función que recibe un parámetro y, utilizando un <em>closure</em>, devuelve la función validadora ya parametrizada.
+Su uso sería idéntico a cualquier otra validación con parámetro:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> FormControl(<span class="string">''</span>, [Validators.required, isLegitimateStark(<span class="literal">true</span>)]);</div></pre></td></tr></table></figure>
+<p>¡Oops! ¿Y ahora cómo parámetrizamos la directiva validadora?. Si queremos que nuestra directiva sea configurable tenemos que modificarla como se muestra a continuación.</p>
+<p>Lo primero es definir una propiedad de entrada utilizando el decorador <code>@Input</code>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@Input() acceptBastards: boolean = <span class="literal">false</span>;</div></pre></td></tr></table></figure>
+<p>Y utilizar la propiedad para parametrizar la validación:
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">validate</span> (<span class="attribute">control</span>: AbstractControl): &#123;<span class="selector-attr">[key: string]</span>: <span class="selector-tag">any</span>&#125; &#123;</div><div class="line">  <span class="selector-tag">return</span> <span class="selector-tag">isLegitimateStark</span>(this.acceptBastards)(control);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Ahora la directiva se puede utilizar así:
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input <span class="attribute">type</span>=<span class="string">"text"</span> <span class="attribute">name</span>=<span class="string">"character"</span> [(ngModel)]=<span class="string">"model.character"</span> stark <span class="attribute">acceptBastards</span>=<span class="string">"true"</span>&gt;</div></pre></td></tr></table></figure></p>
+<p>¡Espera! ¡¿Y qué ocurre si la propiedad <code>acceptBastards</code> cambia?!.</p>
+<img src="http://i.giphy.com/dSFotB5BZwWd2.gif" title="Jon ha olvidado controlar el cambio de la propiedad">
+<p>Tranquilo Jon, está todo controlado. ¿Recuerdas los <a href="https://angular.io/docs/ts/latest/guide/lifecycle-hooks.html" target="_blank" rel="external">lifecycle hooks</a>? Bien,
+pues resulta que hay un hook llamado <a href="(https://angular.io/docs/ts/latest/guide/lifecycle-hooks.html#!#onchanges"><code>ngOnChanges</code></a>) que nos permite estar al tanto de cualquier cambio en las propiedades de la directiva.</p>
+<p>Es recomendable, aunque no necesario, implementar la interfaz <code>onChanges</code> en nuestra clase ya que nos ayudará a implementar correctamente
+el método <code>ngOnChanges</code> que se ejecutará cada vez que haya un cambio en las propiedades de entrada (las que han sido marcadas con el decorador <code>@Input</code>)
+de la clase. </p>
+<p>Bien, lo que tenemos que hacer ahora es parametrizar el validador cada vez que la propiedad <code>acceptBastards</code> cambie y guardar la función validadora
+resultante para invocarla en el método <code>validate</code>. Además debemos implementar el método opcional <code>registerOnValidatorChange</code> que nos proporciona la interfaz <code>Validator</code>,
+este método recibe una función que deberá ser invocada cada vez que el validador cambie, para ello la guardaremos en una propiedad interna de la clase y la invocaremos
+cada vez que el validador cambie.</p>
+<blockquote>
+<p>El proposito del método <code>registerOnValidatorChange</code> es registrar la función que Angular estará escuchando para validar de nuevo el control cuando el validador se modifique</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">HouseStarkValidator</span> <span class="title">implements</span> <span class="title">Validator</span>, <span class="title">OnInit</span>, <span class="title">OnChanges</span> </span>&#123;</div><div class="line">  @Input() acceptBastards: boolean;</div><div class="line">  private validatorFn: <span class="built_in">Function</span>;</div><div class="line">  private onChange: <span class="built_in">Function</span>;</div><div class="line">  </div><div class="line">  validate (control: AbstractControl): &#123;[key: string]: any&#125; &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.validatorFn ? <span class="keyword">this</span>.validatorFn(control) : <span class="literal">null</span>;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  ngOnInit () &#123;</div><div class="line">    <span class="comment">// Por defecto si no hay valor inicializamos la propiedad a false</span></div><div class="line">    <span class="keyword">this</span>.acceptBastards = <span class="keyword">this</span>.acceptBastards === <span class="literal">null</span> || <span class="keyword">this</span>.acceptBastards === <span class="literal">undefined</span> ? </div><div class="line">      <span class="literal">false</span> : <span class="keyword">this</span>.acceptBastards;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  ngOnChanges (changes: SimpleChanges) &#123;</div><div class="line">    <span class="keyword">let</span> acceptBastardsChange: SimpleChange = changes[<span class="string">'acceptBastards'</span>];</div><div class="line">    <span class="keyword">this</span>.createValidatorFunction(acceptBastardsChange.currentValue);</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.onChange) <span class="keyword">this</span>.onChange();</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  registerOnValidatorChange(fn: <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">void</span>) &#123; <span class="keyword">this</span>.onChange = fn; &#125;</div><div class="line"></div><div class="line">  private createValidatorFunction (acceptBastards: any) &#123;</div><div class="line">    <span class="keyword">this</span>.validatorFn = isLegitimateStark(<span class="keyword">this</span>.acceptBastards);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>¡Y esto es todo! Con esto queda cubierto el uso de las validaciones en formularios <em>template-driven</em> y formularios reactivos, y además,
+ya podemos empezar a crear nuestros propios validadores. ¿Qué te ha parecido Jon?.</p>
+<img src="http://i.giphy.com/c8i9FWxTLvkT6.gif" title="Alucinante, ¿verdad?">
+<p>¡Hasta la próxima!</p>
+<p>Si quieres ver todo el código resultante y jugar con lo que hemos tratado en el artículo puedes hacerlo en el siguiente Plunker:</p>
+<iframe style="width: 100%; height: 600px" src="https://embed.plnkr.co/x7HgdzfZwLfAGAMKEBaA?show=preview&deferRun" frameborder="0" allowfullscren="allowfullscren"></iframe>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/10/23/transclusion-en-angular-2/" data-toggle="tooltip" data-placement="top" title="Transclusión de contenido en Angular 2">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">ETIQUETAS DESTACADAS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Angular 2" title="Angular 2">Angular 2</a>
+                        
+                          <a class="tag" href="/tags/#Forms" title="Forms">Forms</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>BLOGS DE INTERÉS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.angular-university.io/" target="_blank">Angular University</a></li>
+                    
+                        <li><a href="https://toddmotto.com/" target="_blank">Todd Motto</a></li>
+                    
+                        <li><a href="http://blog.thoughtram.io/" target="_blank">Thoughtram</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "javascript-on-a-bike";
+    var disqus_identifier = "http://pablolazaro.github.io/2016/11/09/como-crear-y-utilizar-un-validador-en-angular-2/";
+    var disqus_url = "http://pablolazaro.github.io/2016/11/09/como-crear-y-utilizar-un-validador-en-angular-2/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/peibolazaro">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/pablolazaro">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/pablolazaropalencia">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; JavaScript on a Bike 2017 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://pablolazaro.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-85104645-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<!--<img src="http://pablolazaro.github.io/img/icon_wechat.png" width="0" height="0" />-->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
