@@ -11,11 +11,11 @@
     <meta name="keyword"  content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <meta name="headline" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular 2"/>
+    <meta name="headline" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular"/>
 <meta name="publisher" content="JavaScript on a Bike"/>
-<meta name="description" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular 2">
-<meta itemprop="name" content="Cómo crear y utilizar un validador en Angular 2">
-<meta itemprop="description" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular 2">
+<meta name="description" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular">
+<meta itemprop="name" content="Cómo crear y utilizar un validador en Angular">
+<meta itemprop="description" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular">
 
 <!-- Schema.org markup for Google+ -->
 <meta itemprop="image" content="http://i.imgur.com/XKXsutE.jpg"/>
@@ -23,18 +23,18 @@
 <!-- Twitter Card data -->
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:creator" content="@peibolazaro"/>
-<meta name="twitter:description" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular 2">
+<meta name="twitter:description" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular">
 <meta name="twitter:image" content="http://i.imgur.com/XKXsutE.jpg"/>
 <meta name="twitter:site" content="@peibolazaro"/>
-<meta name="twitter:title" content="Cómo crear y utilizar un validador en Angular 2">
+<meta name="twitter:title" content="Cómo crear y utilizar un validador en Angular">
 
 <!-- Open Graph data -->
-<meta property="og:description" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular 2" />
+<meta property="og:description" content="Aprende, junto a Jon Snow,  como crear y utilizar tus propios validadores en Angular" />
 <meta property="og:image" content="http://i.imgur.com/XKXsutE.jpg" />
 <meta property="og:image:type" content="image/jpg" />
 <meta property="og:locale" content="es_ES" />
-<meta property="og:site_name" content="Cómo crear y utilizar un validador en Angular 2" />
-<meta property="og:title" content="Cómo crear y utilizar un validador en Angular 2" />
+<meta property="og:site_name" content="Cómo crear y utilizar un validador en Angular" />
+<meta property="og:title" content="Cómo crear y utilizar un validador en Angular" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://pablolazaro.github.io/2016/11/09/como-crear-y-utilizar-un-validador-en-angular-2/" />
 <meta property="article:author" content="Pablo Lázaro" />
@@ -49,7 +49,7 @@
 
     <title>
         
-          Cómo crear y utilizar un validador en Angular 2 - JavaScript on a Bike - Pablo Lázaro
+          Cómo crear y utilizar un validador en Angular - JavaScript on a Bike - Pablo Lázaro
         
     </title>
 
@@ -207,12 +207,12 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#Angular 2" title="Angular 2">Angular 2</a>
+                          <a class="tag" href="/tags/#Angular" title="Angular">Angular</a>
                         
                           <a class="tag" href="/tags/#Forms" title="Forms">Forms</a>
                         
                     </div>
-                    <h1>Cómo crear y utilizar un validador en Angular 2</h1>
+                    <h1>Cómo crear y utilizar un validador en Angular</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Escrito por Pablo Lázaro el
@@ -241,15 +241,15 @@
                 
 
                 <blockquote>
-<p>Este artículo está actualizado a la version ^4.0.0 de Angular 2</p>
+<p>Este artículo está actualizado a la version ^4.0.0 de Angular</p>
 </blockquote>
 <img src="https://s-media-cache-ak0.pinimg.com/236x/15/1d/41/151d4189b0b48debd2cb32e0d9e2b0f7.jpg" title="Jon Snow, Software Developer">
 <p>Este es Jon. Jon ha decidido dejar la espada y las guerras por los siete reinos
 para convertirse en el mejor developer de todo Westeros. Jon utiliza exclusivamente <strong>jQuery</strong>
 para desarrollar aplicaciones web, así que vamos a mostrarle algunas de las caracteristicas
-de Angular 2 para mejorar su productividad y ayudarle a crear software más robusto. No sabes nada, Jon Nieve.</p>
+de Angular para mejorar su productividad y ayudarle a crear software más robusto. No sabes nada, Jon Nieve.</p>
 <img src="http://i.giphy.com/has1WKhoorwLS.gif" title="Sí, sí, cómo quieras Jon">
-<p>Al igual que en la primera versión del framework Angular 2 incorporá el módulo <code>forms</code>
+<p>Al igual que en la primera versión del framework Angular incorporá el módulo <code>forms</code>
 para manejar y validar, entre otras cosas, formularios. Este módulo proporciona las herramientas necesarias
 para crear y manejar la interacción del usuario con un formulario de una forma muy similar
 a la que se hiciese en Angular 1.</p>
@@ -307,11 +307,11 @@ referencia a una instancia de <code>HouseStarkValidator</code> que aún no se ha
 <p>Para entender mejor esto, podéis leer los siguientes artículos acerca de <a href="http://blog.thoughtram.io/angular/2015/09/03/forward-references-in-angular-2.html" target="_blank" rel="external">forwardRef</a>
 y <a href="http://blog.thoughtram.io/angular2/2015/11/23/multi-providers-in-angular-2.html" target="_blank" rel="external">multi providers</a>.</p>
 <h3 id="Afinando-el-selector"><a href="#Afinando-el-selector" class="headerlink" title="Afinando el selector"></a>Afinando el selector</h3><p>Hasta ahora nuestra directiva aplica a todo elemento que tenga el atributo <code>stark</code>, pero esto no es muy eficiente
-dado que nuestra validación está muy ligada a un control de formulario que esté integrado dentro de un formulario de Angular 2,
+dado que nuestra validación está muy ligada a un control de formulario que esté integrado dentro de un formulario de Angular,
 es decir, un elemento que tenga la combinación de atributos <code>ngModel</code> y <code>name</code> en caso de formularios <em>template-drive</em> o los atributos
 <code>formControl</code> o <code>formControlName</code> en caso de formularios reactivos.</p>
 <p>Así que, ¿por qué no afinar el selector para que solo aplique a los elementos que realmente sean controles de formulario?.</p>
-<p>Las directivas en Angular 2 pueden tener multiples selectores (separados por comas) además de selectores que combinen varios atributos.
+<p>Las directivas en Angular pueden tener multiples selectores (separados por comas) además de selectores que combinen varios atributos.
 Podemos, por ejemplo, aplicar la directiva solo a aquellos elementos que tengan el atributo <code>stark</code> y la directiva <code>ngModel</code> de esta manera:</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@Directive(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'[stark][ngModel]'</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <p>En nuestro caso, y para cumplir todos los requisitos que hemos listado anteriormente, el selector de nuestra directiva quedaría así:</p>
@@ -335,7 +335,7 @@ un formulario es una instancia de <code>FormGroup</code> que a su vez está form
 <li>Listado de validadores síncronos</li>
 <li>Listado de validadores asíncronos</li>
 </ul>
-<p>Angular 2 provee la clase <a href="https://angular.io/docs/ts/latest/api/forms/index/Validators-class.html" target="_blank" rel="external"><code>Validators</code></a>, la cual tiene una serie de métodos estáticos para aplicar las validaciones más comunes:
+<p>Angular provee la clase <a href="https://angular.io/docs/ts/latest/api/forms/index/Validators-class.html" target="_blank" rel="external"><code>Validators</code></a>, la cual tiene una serie de métodos estáticos para aplicar las validaciones más comunes:
 <code>required</code>, <code>minLength</code>, <code>pattern</code>, <code>nullValidator</code>, etc. A la hora de crear un <code>FormControl</code> podemos pasar cualquiera de esos métodos estáticos
 como segundo argumento:</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> FormControl(<span class="string">''</span>, [Validators.required, Validators.minLength(<span class="number">5</span>)]);</div></pre></td></tr></table></figure>
@@ -396,7 +396,7 @@ ya podemos empezar a crear nuestros propios validadores. ¿Qué te ha parecido J
                     
                     
                         <li class="next">
-                            <a href="/2016/10/23/transclusion-en-angular-2/" data-toggle="tooltip" data-placement="top" title="Transclusión de contenido en Angular 2">Next Post &rarr;</a>
+                            <a href="/2016/10/23/transclusion-en-angular-2/" data-toggle="tooltip" data-placement="top" title="Transclusión de contenido en Angular">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -429,7 +429,7 @@ ya podemos empezar a crear nuestros propios validadores. ¿Qué te ha parecido J
                     <h5><a href="/tags/">ETIQUETAS DESTACADAS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Angular 2" title="Angular 2">Angular 2</a>
+                          <a class="tag" href="/tags/#Angular" title="Angular">Angular</a>
                         
                           <a class="tag" href="/tags/#Forms" title="Forms">Forms</a>
                         
